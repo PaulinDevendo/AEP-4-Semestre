@@ -1,0 +1,84 @@
+# PROJETO SAVE OUR SKIN
+
+## Documento de Arquitetura e Requisitos — AEP
+
+### 1. DESCOBERTA E CONCEPÇÃO — O PROBLEMA E A ODS
+
+A violência contra a mulher é um problema social que pode ocorrer em diferentes contextos e, em situações de relacionamento abusivo, a própria vítima pode ter sua comunicação e seus dispositivos monitorados pelo agressor. Dessa forma, ferramentas convencionais de denúncia e pedido de ajuda podem representar uma dificuldade adicional para mulheres que necessitam de auxílio de maneira discreta e segura.
+
+A concepção do projeto **Save Our Skin** surgiu a partir de casos em que vítimas buscaram formas alternativas e disfarçadas de comunicação para solicitar ajuda em situações de violência. Um dos casos que inspirou a proposta ficou conhecido pela utilização de uma ligação à polícia na qual a vítima simulava estar realizando um pedido de pizza, permitindo que sua situação fosse identificada sem que o agressor percebesse diretamente a intenção da comunicação.
+
+A partir desse conceito, o projeto propõe uma plataforma digital de denúncia e comunicação segura, desenvolvida com a aparência de uma plataforma de comércio eletrônico de maquiagem. O objetivo é utilizar uma interface que, em uma situação de acesso ao dispositivo da vítima por parte do agressor, não revele imediatamente a verdadeira finalidade do sistema.
+
+A plataforma, denominada **Save Our Skin**, terá inicialmente a aparência de uma loja virtual de maquiagem. Produtos, categorias e demais elementos visuais serão utilizados para preservar essa aparência cotidiana e discreta. Dessa forma, a utilização da plataforma poderá se assemelhar à navegação em um comércio eletrônico convencional, reduzindo a possibilidade de que sua verdadeira finalidade seja identificada por terceiros.
+
+Entre os recursos previstos está a opção de **“Fale com o vendedor”**, apresentada de maneira compatível com a aparência de uma loja virtual, mas que funcionará como um canal de comunicação com uma equipe fictícia especializada no atendimento às denúncias. Esse canal deverá possibilitar uma comunicação rápida e discreta entre a vítima e a equipe responsável pelo recebimento das informações.
+
+Os produtos e elementos visuais da plataforma também poderão ser utilizados como mecanismos de comunicação indireta. A definição exata dos produtos, cores, categorias e seus respectivos significados permanecerá aberta durante a prototipação, permitindo que o projeto seja posteriormente adaptado às necessidades identificadas durante seu desenvolvimento.
+
+Além da plataforma web, o projeto contará com um aplicativo desenvolvido para dispositivos móveis. O aplicativo terá como principal objetivo oferecer um acesso mais rápido à plataforma e disponibilizar mecanismos de acionamento de ajuda. A usuária poderá configurar um determinado padrão de interação para solicitar auxílio, como uma sequência específica de ações no dispositivo. A implementação exata desse mecanismo poderá utilizar diferentes interações disponíveis no aparelho, considerando as limitações técnicas de cada sistema operacional.
+
+O aplicativo não terá como objetivo substituir a plataforma web, mas funcionar como um meio complementar de acesso rápido e acionamento de recursos de emergência. A utilização de um aplicativo separado permite que determinadas funcionalidades sejam acessadas de maneira mais direta, enquanto a plataforma web mantém a aparência de uma loja virtual de maquiagem.
+
+O público-alvo do **Save Our Skin** será exclusivamente composto por **mulheres vítimas de violência**, tendo como principal finalidade oferecer uma alternativa tecnológica para comunicação e solicitação de ajuda de maneira discreta.
+
+O projeto está diretamente relacionado à **ODS 5 — Igualdade de Gênero**, da Organização das Nações Unidas, por abordar o enfrentamento da violência contra mulheres e a criação de mecanismos que possam contribuir para sua proteção e acesso a canais de auxílio. Dessa maneira, o projeto busca utilizar a tecnologia como instrumento de apoio à comunicação e à segurança de mulheres que estejam vivenciando situações de violência.
+
+---
+
+### 2. JUSTIFICATIVA TÉCNICA E ARQUITETURAL
+
+Para o desenvolvimento do **Save Our Skin**, será utilizado um conjunto de tecnologias baseadas principalmente no ecossistema JavaScript/TypeScript, permitindo que o grupo utilize conhecimentos já adquiridos e mantenha maior integração entre as diferentes partes da aplicação. As tecnologias escolhidas também são adequadas ao desenvolvimento de uma aplicação web responsiva acompanhada de um aplicativo mobile.
+
+#### React.js
+
+O **React.js** será utilizado no desenvolvimento da interface da plataforma web. A biblioteca permite a criação de interfaces baseadas em componentes reutilizáveis, facilitando a organização e a manutenção das diferentes telas que compõem o sistema.
+
+A escolha do React.js também está relacionada à familiaridade do grupo com a tecnologia e ao fato de ela fazer parte do ecossistema JavaScript. Isso possibilita que a equipe mantenha uma abordagem semelhante durante o desenvolvimento das diferentes funcionalidades da aplicação.
+
+No Save Our Skin, o React.js será responsável pela construção da interface que simula uma plataforma de comércio eletrônico de maquiagem, incluindo produtos, categorias, área de comunicação e demais elementos necessários para a navegação da usuária.
+
+#### Bootstrap
+
+O **Bootstrap** será utilizado como ferramenta de apoio à construção da interface e à responsividade da plataforma. Como o sistema deverá ser acessível por diferentes dispositivos, é importante que suas telas possam se adaptar a diferentes tamanhos de tela sem comprometer a utilização.
+
+A utilização do Bootstrap também contribui para a padronização visual dos componentes e permite que o grupo desenvolva a interface de maneira mais rápida durante a etapa de prototipação, mantendo uma estrutura organizada e responsiva.
+
+#### NestJS
+
+O **NestJS** será utilizado no desenvolvimento do back-end da aplicação. A tecnologia fornece uma estrutura organizada para criação de APIs e permite separar adequadamente as responsabilidades do sistema, facilitando a manutenção e evolução do projeto.
+
+A escolha do NestJS também se justifica pela utilização do mesmo ecossistema JavaScript/TypeScript empregado no desenvolvimento da interface. Essa proximidade tecnológica reduz a curva de aprendizado da equipe e facilita a comunicação entre as diferentes partes do sistema.
+
+No projeto, o back-end será responsável pelo processamento das requisições realizadas pela plataforma, aplicação das regras de negócio, gerenciamento das informações e comunicação com o banco de dados.
+
+#### Prisma
+
+O **Prisma** será utilizado como ORM (Object-Relational Mapping) para realizar a comunicação entre o back-end desenvolvido em NestJS e o banco de dados.
+
+A utilização de um ORM permite trabalhar com as informações persistidas de maneira mais organizada, reduzindo a necessidade de escrever diretamente comandos SQL em todas as operações. O Prisma também facilita a definição e manutenção da estrutura dos dados utilizados pela aplicação.
+
+Sua escolha está alinhada à proposta do projeto por proporcionar uma integração adequada com o ecossistema utilizado no back-end e facilitar o desenvolvimento durante a etapa de prototipação.
+
+#### Supabase / PostgreSQL
+
+O **Supabase** será utilizado inicialmente como infraestrutura para o banco de dados do projeto, utilizando o **PostgreSQL** como sistema de gerenciamento de banco de dados relacional.
+
+A escolha do Supabase está relacionada principalmente ao caráter de prototipação da AEP, permitindo que o grupo tenha acesso a uma infraestrutura de banco de dados sem a necessidade de desenvolver e manter toda a estrutura de hospedagem por conta própria.
+
+O PostgreSQL oferece suporte a relacionamentos entre diferentes entidades e permite organizar de maneira estruturada as informações necessárias para o funcionamento da plataforma, como dados de usuárias, comunicação, registros e demais informações utilizadas pelo sistema.
+
+#### React Native
+
+O **React Native** será utilizado para o desenvolvimento do aplicativo mobile complementar ao Save Our Skin. A tecnologia permite desenvolver aplicações para dispositivos móveis utilizando o ecossistema JavaScript/TypeScript, mantendo uma proximidade tecnológica com o React.js utilizado na plataforma web.
+
+A escolha do React Native também reduz a necessidade de utilizar uma linguagem completamente diferente para o desenvolvimento do aplicativo, permitindo que a equipe aproveite conhecimentos relacionados ao React e ao JavaScript/TypeScript.
+
+No projeto, o aplicativo terá como finalidade proporcionar acesso rápido à plataforma e disponibilizar mecanismos de acionamento de ajuda configuráveis pela própria usuária. A implementação desses mecanismos deverá considerar as limitações e permissões específicas de cada sistema operacional móvel.
+
+### Síntese da escolha tecnológica
+
+A combinação das tecnologias escolhidas busca atender às necessidades do projeto sem aumentar desnecessariamente a complexidade da prototipação. O **React.js** e o **Bootstrap** serão utilizados na construção da plataforma web responsiva, enquanto o **React Native** ficará responsável pelo aplicativo mobile. O **NestJS** será utilizado como back-end, centralizando as regras de negócio e a comunicação com os clientes. O **Prisma** atuará como camada de acesso ao banco de dados, enquanto o **Supabase**, utilizando PostgreSQL, fornecerá a estrutura de persistência das informações.
+
+Dessa maneira, a arquitetura proposta mantém uma integração entre as tecnologias utilizadas e aproveita a familiaridade da equipe com o ecossistema JavaScript/TypeScript, possibilitando um desenvolvimento mais eficiente durante a construção do protótipo do **Save Our Skin**.
+
