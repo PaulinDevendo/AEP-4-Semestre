@@ -121,6 +121,9 @@ VALUES ('Maria', 'mariadapenha@gmail.com', '<HASH_BCRYPT>');
 > só funcionam com usuária logada; visitante não vê o significado dos produtos. Isso combina com
 > `conversa.usuaria_id NOT NULL`.
 
+> **Cadastro de usuária:** a tela `/cadastro` do front é **simulada** (não grava nada). Na fase da API ela
+> passa a gravar em `usuaria` (`apelido`, `email`, `senha_hash` bcrypt, `pin_coacao` = hash bcrypt do PIN, opcional).
+
 ### 2.3 Instituições de apoio (fictícias)
 
 ```sql

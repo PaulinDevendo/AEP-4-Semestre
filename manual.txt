@@ -1,0 +1,112 @@
+MANUAL DE TESTE - SAVE OUR SKIN
+(Mesmo conteudo do README.md, para quem nao conseguir abri-lo.)
+
+Save Our Skin — Guia de teste para avaliação
+
+Plataforma web com aparência de loja de maquiagem que funciona como canal discreto de ajuda
+para mulheres em situação de violência (AEP — ODS 5, Igualdade de Gênero).
+Para quem olha de fora, é só uma loja. Este guia mostra tudo o que está escondido, para que possa ser avaliado.
+
+Esta versão é um protótipo de front-end: os dados são fictícios, nada é gravado em banco
+e as contas abaixo são genéricas. Atualizar a página encerra a sessão (de propósito: não deixa rastro no navegador).
+
+---
+
+1. Como abrir
+
+npm install
+npm run dev:frontend
+
+Abra o endereço mostrado no terminal (normalmente http://localhost:5173).
+
+---
+
+2. Contas de teste
+
+  - Perfil | E-mail | Senha | Onde entrar
+  - Usuária (cliente da loja) | mariadapenha@gmail.com | SOSHELP | ícone de pessoa no topo, ou /entrar
+  - Atendente (equipe) | atendente@gmail.com | SaveOurSkin123 | ver o passo "porta secreta" abaixo
+
+Também é possível criar uma conta de mentira em /cadastro (não grava nada).
+
+---
+
+3. Roteiro de teste (5 minutos)
+
+Passo 1 — A loja (a "fachada")
+1. Navegue pelas categorias do menu (Batons, Esmaltes, Rosto, Skincare, Acessórios) e abra alguns produtos.
+2. Sem login, nada indica que existe algo além de uma loja de maquiagem.
+
+Passo 2 — Entrar como usuária
+1. Clique no ícone de pessoa e entre com mariadapenha@gmail.com / SOSHELP.
+
+Passo 3 — Os "segredos" dos produtos (só com login)
+Cada produto representa um tipo de agressão. Com a usuária logada:
+- Passe o mouse sobre um produto (ou navegue com Tab): aparece um aviso curto com o tipo.
+- Abra o produto e clique no botão "i" ao lado do nome: mostra o tipo, a urgência e uma explicação.
+- O nome do produto traz uma dica sutil (ex.: "Nude Laço" = cerceamento; "Glow Vigia" = vigilância).
+- Sem login, nada disso aparece.
+
+Tabela completa (também em frontend/src/data/codes.ts):
+
+  - Categoria | Produto | Tipo que indica | Urgência
+  - Batons | Rouge Intense | Ameaça | alta
+  - Batons | Rosa Violáceo | Violência física | alta
+  - Batons | Nude Laço | Cerceamento de liberdade | media
+  - Batons | Bordô Noturno | Violência sexual | alta
+  - Esmaltes | Esmalte Vermelho Vivo | Pedido de ajuda imediato (botão de emergência) | emergencia
+  - Esmaltes | Esmalte Rosa Névoa | Violência psicológica | media
+  - Esmaltes | Esmalte Nude Posse | Violência patrimonial | media
+  - Esmaltes | Base Fortalecedora | Outro / orientação | baixa
+  - Rosto | Velvet Skin Toque | Violência sexual | alta
+  - Rosto | Blush Romantic | Violência psicológica | media
+  - Rosto | Pó Invisível | Outro / orientação | baixa
+  - Rosto | Glow Vigia | Cerceamento de liberdade | media
+  - Skincare | Essence Rosé | Violência psicológica | media
+  - Skincare | Creme Reparador | Violência física | alta
+  - Skincare | Água Micelar | Outro / orientação | baixa
+  - Skincare | Protetor Escudo FPS 50 | Ameaça | media
+  - Acessórios | Kit Pincéis Cerca | Cerceamento de liberdade | media
+  - Acessórios | Esponja Rosa | Outro / orientação | baixa
+  - Acessórios | Necessaire Cofre | Violência patrimonial | media
+  - Acessórios | Espelho Eco | Violência psicológica | baixa
+
+Passo 4 — O filtro: "Acertar com vendedor"
+1. Em um produto, clique em Adicionar à sacola e depois em Ver sacola (ícone da sacola no topo).
+2. Clique em Confirmar compra. A tela mostra uma compra comum ("Compra confirmada, pedido nº ...").
+3. Só nesta tela existe o botão Acertar com vendedor. Quem entrou por engano não precisa clicar:
+   nada é registrado como denúncia. Quem precisa de ajuda clica, e isso cria a ocorrência e abre o chat com a equipe.
+4. Escreva uma mensagem no chat. Ela aparece para a equipe no painel (passo 5).
+
+Passo 5 — A porta secreta e o painel da equipe
+1. Acesse /atendente (ex.: http://localhost:5173/atendente). Parece uma página 404 comum.
+2. No subtítulo "Beleza e moda", a palavra "moda" é um botão escondido. Clique nela.
+3. Entre com atendente@gmail.com / SaveOurSkin123.
+4. No painel:
+   - Conversas: fila com a prévia (produto escolhido, tipo de agressão, urgência, orientação para quem atende).
+     Assuma a conversa criada no passo 4, responda e veja a mensagem aparecer no chat da usuária.
+   - Ocorrências: classifique o tipo, mude a urgência e o status e encaminhe para uma instituição (fictícia).
+   - Há um interruptor de disponibilidade e o limite de 3 conversas simultâneas por atendente.
+5. Qualquer outra URL inexistente mostra uma 404 comum, sem a porta.
+
+---
+
+4. O que ainda não está pronto (transparência)
+
+- Banner do esmalte vermelho vivo e a página de emergência (localização e áudio em tempo real).
+- Modo coação (loja "limpa" com PIN) e saída rápida.
+- Backend (NestJS + Prisma + Supabase): o banco ainda não foi aplicado. O arquivo banco.md descreve tudo
+  que o banco precisa (seeds e processo) e database/save_our_skin_web.sql é o schema.
+- App mobile (React Native): fase futura.
+- Os logins acima são validados no próprio navegador; na versão final serão feitos no servidor (bcrypt + JWT).
+- As imagens dos produtos são ilustrações provisórias.
+
+5. Arquivos úteis
+
+  - Arquivo | Para que serve
+  - Context | requisitos e arquitetura do projeto
+  - PLANO.md | fases e decisões
+  - banco.md | o que o banco de dados precisa (para o dev de banco)
+  - database/save_our_skin_web.sql | schema do banco
+  - visual/ | identidade visual por página
+  - frontend/src/data/codes.ts | quais produtos indicam qual tipo de agressão
