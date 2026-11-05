@@ -22,6 +22,7 @@ colunas, constraints ou policies. Inserir e atualizar **dados** (seeds, UPDATE e
 | Painel da equipe | Dentro do mesmo app React da loja (não há `painel` separado). Qualquer atendente logado acessa o admin (métricas, dashboards, solicitações); restrição por perfil fica para depois. |
 | Acesso ao painel | Sem link na loja. A rota real vem de `VITE_STAFF_PATH`. A loja mostra uma falsa página 404 com uma "porta secreta" que leva ao login do atendente (JWT). Chunk do painel em lazy-load, build sem sourcemaps, API do atendente responde 404 sem token. |
 | Identidade visual | Loja "Save Our Skin", símbolo ♀, tons de rosa. Assets em `frontend/public`; documentos por página em `visual/<página>/` (ex.: `visual/home/`). |
+| Qualidade | Lighthouse máximo (desempenho, acessibilidade, boas práticas), velocidade acima de tudo: fontes self-hosted, Bootstrap enxuto (só grid), sem filtros/blur caros, contraste AA. Rodar Lighthouse antes de fechar cada tela. |
 | Deploy | Cloudflare Pages (web) + Render pago (API) + Supabase, no mesmo domínio (`/api` → Render). TURN necessário para o áudio WebRTC. |
 | Dependências | `.npmrc` com `legacy-peer-deps=true` (bug do npm 10 com peers em workspaces); TypeScript alinhado em ^6. |
 

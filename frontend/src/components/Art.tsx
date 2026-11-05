@@ -31,9 +31,6 @@ function Defs({ id }: { id: string }) {
       <radialGradient id={`${id}-glow`} cx=".5" cy=".45" r=".6">
         <stop offset="0" stopColor="#fff" stopOpacity=".85" /><stop offset="1" stopColor="#fff" stopOpacity="0" />
       </radialGradient>
-      <filter id={`${id}-shadow`} x="-30%" y="-10%" width="160%" height="140%">
-        <feDropShadow dx="0" dy="14" stdDeviation="12" floodColor="#8C263D" floodOpacity=".28" />
-      </filter>
     </defs>
   )
 }
@@ -63,7 +60,7 @@ function Rose({ x, y, s = 1, fill = '#B3263F' }: { x: number; y: number; s?: num
 
 function Rouge({ id }: { id: string }) {
   return (
-    <g filter={`url(#${id}-shadow)`}>
+    <g>
       <g transform="translate(200 250) rotate(-8)">
         <path d="M-20-140 20-165 20-90-20-90Z" fill={`url(#${id}-red)`} />
         <path d="M-20-140 20-165 20-158-20-132Z" fill="#fff" opacity=".28" />
@@ -80,7 +77,7 @@ function Rouge({ id }: { id: string }) {
 
 function Essence({ id }: { id: string }) {
   return (
-    <g filter={`url(#${id}-shadow)`}>
+    <g>
       <rect x="160" y="130" width="80" height="34" rx="4" fill={`url(#${id}-gold)`} />
       <rect x="188" y="164" width="24" height="26" fill="#EBCBD3" opacity=".9" />
       <rect x="140" y="190" width="120" height="190" rx="22" fill="#F4C9D2" opacity=".8" />
@@ -95,7 +92,7 @@ function Essence({ id }: { id: string }) {
 
 function Blush({ id }: { id: string }) {
   return (
-    <g filter={`url(#${id}-shadow)`}>
+    <g>
       <ellipse cx="200" cy="300" rx="125" ry="40" fill="#5B3A44" opacity=".25" />
       <circle cx="200" cy="270" r="118" fill={`url(#${id}-gold)`} />
       <circle cx="200" cy="270" r="104" fill="#FFF9F5" />
@@ -109,7 +106,7 @@ function Blush({ id }: { id: string }) {
 
 function Velvet({ id }: { id: string }) {
   return (
-    <g filter={`url(#${id}-shadow)`}>
+    <g>
       <rect x="190" y="110" width="20" height="26" rx="3" fill={`url(#${id}-gold)`} />
       <rect x="176" y="96" width="62" height="14" rx="7" fill={`url(#${id}-gold)`} />
       <rect x="196" y="136" width="8" height="30" fill="#E7C9A8" />
@@ -137,6 +134,7 @@ export function ProductArt({ kind, flowers = false }: { kind: ArtKind; flowers?:
           <Rose x={350} y={350} s={.7} fill="#B76B7D" />
         </>
       )}
+      <ellipse cx="200" cy="400" rx="95" ry="11" fill="#8C263D" opacity=".16" />
       <Item id={id} />
     </svg>
   )
@@ -151,6 +149,7 @@ export function HeroArt() {
       <Rose x={70} y={420} s={1.7} fill="#8C263D" />
       <Rose x={330} y={445} s={1.9} />
       <Rose x={365} y={350} s={.8} fill="#B76B7D" />
+      <ellipse cx="205" cy="412" rx="95" ry="11" fill="#8C263D" opacity=".18" />
       <Rouge id={id} />
       <g fill="#B3263F" opacity=".85">
         <path transform="translate(120 130) rotate(30) scale(.5)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />

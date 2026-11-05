@@ -27,7 +27,7 @@ export default function Header() {
           </label>
           <button className="icon-btn d-md-none" aria-label="Buscar"><SearchIcon /></button>
           <button className="icon-btn" aria-label="Favoritos"><HeartIcon /></button>
-          <button className="icon-btn bag" aria-label="Sacola de compras"><BagIcon /><span className="badge-count">0</span></button>
+          <button className="icon-btn bag" aria-label="Sacola de compras" data-count="0"><BagIcon /></button>
         </div>
       </div>
     </header>
