@@ -25,7 +25,7 @@ export default function NotFound({ door = false }: { door?: boolean }) {
     const ok = await loginAtendente(String(f.get('email')), String(f.get('senha')))
     setBusy(false)
     if (ok) { dlg.current?.close(); nav(STAFF_PATH, { replace: true }) }
-    else setErr('E-mail ou senha incorretos.')
+    else setErr('E-mail ou senha incorretos (após 5 erros, aguarde 30 s).')
   }
 
   return (

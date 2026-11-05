@@ -259,3 +259,6 @@ em { font-style: italic; color: var(--rose-text); }
 .hint { position: absolute; z-index: 3; left: 50%; top: .6rem; transform: translate(-50%, -6px); max-width: 90%; padding: .35rem .8rem; border-radius: 999px; background: var(--wine); color: var(--ivory); font-size: .72rem; font-weight: 600; letter-spacing: .04em; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); }
 .product-card:hover .hint, .product-card:focus-within .hint { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 575.98px) { .hint { font-size: .62rem; padding: .3rem .6rem; } }
+
+.btn-ghost { display: inline-block; padding: .95rem 2rem; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; background: transparent; color: var(--wine); border: 1px solid var(--wine); transition: background .3s, color .3s; cursor: pointer; }
+.btn-ghost:hover { background: var(--wine); color: var(--ivory); }

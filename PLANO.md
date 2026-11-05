@@ -147,3 +147,4 @@ Lado da equipe (painel):
 - A configuração do gatilho fica salva só no aparelho (não há tabela para ela)
 
 > Atualização (2026-11-05): dicas de agressão nos produtos só para usuária logada. Conta demo da usuária: `mariadapenha@gmail.com` / `SOSHELP` (rota `/entrar`, validada no front por ora).
+> Fluxo (2026-11-05): sacola → "Confirmar compra" (compra comum, nada gravado) → só então o botão "Acertar com vendedor", que cria ocorrência + conversa. Filtra quem entrou por engano. O botão saiu da página do produto.

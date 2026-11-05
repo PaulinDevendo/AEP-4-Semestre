@@ -55,6 +55,19 @@ export function abrirConversa(produtoId: string | null, apelido: string): number
   conversas.set((l) => [{ id, apelido, produtoId, origem: produtoId ? 'produto' : 'direta', status: 'aguardando', significado: code?.significado ?? null, urgencia: code?.urgencia ?? null, orientacao: code ? SIGNIFICADO_INFO[code.significado].staff : null, atendente: null, abertaEm: Date.now(), mensagens: [msg('sistema', 'Conversa aberta.')] }, ...l])
   return id
 }
+/**
+ * "Acertar com vendedor" (depois da compra confirmada): cria a ocorrência (pedido_web) e a conversa,
+ * usando o item de maior urgência como produto de origem. Quem entrou por engano nunca chega aqui.
+ */
+export function abrirPedido(items: { id: string; qty: number }[], apelido: string): number {
+  const rank = (id: string) => URGENCIAS.indexOf(getCode(id)?.urgencia ?? 'baixa')
+  const top = [...items].sort((a, b) => rank(b.id) - rank(a.id))[0]
+  const conversaId = abrirConversa(top?.id ?? null, apelido)
+  const c = conversas.get().find((x) => x.id === conversaId)
+  ocorrencias.set((l) => [{ id: ++seq, apelido, origem: 'pedido_web', tipo: null, urgencia: c?.urgencia ?? 'media', status: 'aberta',
+    relato: `Itens do pedido: ${items.map((i) => `${i.qty}× ${i.id}`).join(', ')}`, criadaEm: Date.now(), instituicao: null, conversaId }, ...l])
+  return conversaId
+}
 export const enviarMensagem = (id: number, autor: Mensagem['autor'], texto: string) => patch(id, (c) => ({ ...c, mensagens: [...c.mensagens, msg(autor, texto)] }))
 export const assumir = (id: number, nome: string) => patch(id, (c) => ({ ...c, status: 'em_andamento', atendente: nome, mensagens: [...c.mensagens, msg('sistema', 'Atendimento iniciado.')] }))
 export const encerrar = (id: number) => patch(id, (c) => ({ ...c, status: 'encerrada', mensagens: [...c.mensagens, msg('sistema', 'Conversa encerrada.')] }))

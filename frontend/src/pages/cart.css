@@ -1,0 +1,15 @@
+.cart h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 2rem; }
+.cart .btn-brand, .cart .btn-ghost { border: 0; cursor: pointer; }
+.cart .btn-ghost { border: 1px solid var(--wine); }
+.lnk { color: var(--rose-text); text-decoration: underline; }
+.lines { list-style: none; margin: 0; padding: 0; }
+.lines li { display: grid; grid-template-columns: 1fr auto auto; gap: 1.2rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+.lines small { display: block; color: var(--muted); }
+.qty { display: flex; align-items: center; gap: .6rem; }
+.qty button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: #fff; cursor: pointer; color: var(--wine); }
+.summary { padding: 1.6rem; border: 1px solid var(--line); border-radius: 18px; background: var(--porcelain); }
+.summary p { display: flex; justify-content: space-between; align-items: center; margin: 0 0 1.2rem; }
+.summary .btn-brand { width: 100%; }
+.done { max-width: 520px; margin: 0 auto; text-align: center; }
+.done ul { list-style: none; padding: 0; color: var(--muted); }
+.done-actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.5rem; }

@@ -37,7 +37,7 @@ export default function Header() {
           <button className="icon-btn d-md-none" aria-label="Buscar"><SearchIcon /></button>
           <Link to="/entrar" className="icon-btn" aria-label="Minha conta"><UserIcon /></Link>
           <button className="icon-btn" aria-label="Favoritos"><HeartIcon /></button>
-          <button className="icon-btn bag" aria-label="Sacola de compras" data-count={count}><BagIcon /></button>
+          <Link to="/sacola" className="icon-btn bag" aria-label={`Sacola de compras, ${count} itens`} data-count={count}><BagIcon /></Link>
         </div>
       </div>
     </header>

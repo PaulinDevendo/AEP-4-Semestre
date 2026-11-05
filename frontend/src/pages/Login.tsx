@@ -19,7 +19,7 @@ export default function Login() {
     const ok = await loginUsuaria(String(f.get('email')), String(f.get('senha')))
     setBusy(false)
     if (ok) nav(dest, { replace: true })
-    else setErr('E-mail ou senha incorretos.')
+    else setErr('E-mail ou senha incorretos (após 5 erros, aguarde 30 s).')
   }
 
   if (user) {
@@ -44,6 +44,7 @@ export default function Login() {
         <input id="u-s" name="senha" type="password" autoComplete="current-password" required />
         <p className="err" role="alert">{err}</p>
         <button className="btn-brand" type="submit" disabled={busy}>{busy ? 'Entrando…' : 'Entrar'}</button>
+        <p className="alt">Ainda não tem conta? <Link to="/cadastro" className="lnk">Criar conta</Link></p>
       </form>
     </div></section>
   )

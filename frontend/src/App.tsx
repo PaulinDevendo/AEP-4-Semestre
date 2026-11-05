@@ -7,6 +7,8 @@ import { STAFF_PATH, useSession } from './data/auth'
 const Category = lazy(() => import('./pages/Category'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const Login = lazy(() => import('./pages/Login'))
+const Cart = lazy(() => import('./pages/Cart'))
+const Register = lazy(() => import('./pages/Register'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Panel = lazy(() => import('./pages/staff/Panel'))
 
@@ -23,6 +25,8 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="categoria/:slug" element={<Category />} />
           <Route path="produto/:id" element={<ProductPage />} />
+          <Route path="sacola" element={<Cart />} />
+          <Route path="cadastro" element={<Register />} />
           <Route path="entrar" element={<Login />} />
         </Route>
         <Route path={STAFF_PATH} element={<StaffRoute />} />

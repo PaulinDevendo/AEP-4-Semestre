@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { ProductArt } from '../components/Art'
-import ChatDrawer from '../components/ChatDrawer'
 import ProductCard from '../components/ProductCard'
 import { addToCart } from '../data/cart'
-import { abrirConversa } from '../data/staffStore'
 import { getCode, SIGNIFICADO_INFO } from '../data/codes'
-import { useHints, useUserSession } from '../data/userAuth'
+import { useHints } from '../data/userAuth'
 import { brl, byCategory, getCategory, getProduct } from '../data/products'
 import { Navigate } from 'react-router-dom'
 import './catalog.css'
@@ -14,12 +12,9 @@ import './catalog.css'
 export default function ProductPage() {
   const { id = '' } = useParams()
   const product = getProduct(id)
-  const [chat, setChat] = useState<number | null>(null)
   const [added, setAdded] = useState(false)
   const [info, setInfo] = useState(false)
   const hints = useHints()
-  const user = useUserSession()
-  const nav = useNavigate()
   if (!product) return <Navigate to="/404" replace />
   const code = hints ? getCode(product.id) : undefined
   const sig = code && SIGNIFICADO_INFO[code.significado]
@@ -50,7 +45,7 @@ export default function ProductPage() {
             <p className="pdp-meta"><span className="swatch" style={{ background: product.colorHex }} aria-hidden="true" /> Cor {product.colorHex.toUpperCase()} · {product.stock > 0 ? 'Em estoque' : 'Indisponível'}</p>
             <div className="pdp-actions">
               <button className="btn-brand" onClick={() => { addToCart(product.id); setAdded(true) }}>{added ? 'Adicionado ✓' : 'Adicionar à sacola'}</button>
-              <button className="btn-ghost" onClick={() => (user ? setChat(chat ?? abrirConversa(product.id, user.apelido)) : nav(`/entrar?next=${encodeURIComponent(`/produto/${product.id}`)}`))}>Fale com o vendedor</button>
+              {added && <Link to="/sacola" className="btn-ghost">Ver sacola</Link>}
             </div>
           </div>
         </div>
@@ -61,7 +56,6 @@ export default function ProductPage() {
           </div>
         )}
       </div>
-      {chat !== null && <ChatDrawer conversaId={chat} title={product.name} onClose={() => setChat(null)} />}
     </section>
   )
 }

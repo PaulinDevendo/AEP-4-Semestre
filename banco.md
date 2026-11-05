@@ -20,7 +20,7 @@ Estado atual: o schema **ainda não foi aplicado no Supabase**. Ordem sugerida:
 | Menu e categorias | `categoria` (`ativo = true`, `ORDER BY ordem`) | 5 categorias |
 | Página de categoria | `produto` (`categoria_id`, `ativo = true`) | |
 | Página de produto | `produto`, `codigo_disfarce` | dados do item + botão "i" com o tipo de agressão (`significado`, `urgencia`) e aviso rápido no hover |
-| "Fale com o vendedor" | `conversa`, `mensagem`, `codigo_disfarce` | ver seção 3 |
+| "Acertar com vendedor" (após confirmar a compra) | `ocorrencia`, `ocorrencia_item`, `conversa`, `mensagem`, `codigo_disfarce` | ver seção 3 |
 | Painel — fila e prévia | `vw_previa_atendimento` | |
 | Painel — ocorrências | `ocorrencia`, `encaminhamento`, `instituicao_apoio` | |
 | Painel — login | `atendente` | JWT emitido pelo NestJS; **bcrypt** em `senha_hash` |
@@ -189,17 +189,23 @@ JOIN produto p ON p.nome = v.nome;
 
 ## 3. Processo (como as tabelas são usadas, ponta a ponta)
 
-### 3.1 Compra comum → denúncia (carrinho)
+### 3.1 Compra → "Acertar com vendedor" (o filtro)
 
-1. A usuária navega pelo catálogo (`categoria` → `produto`) e coloca itens na sacola.
-2. Ao finalizar, o NestJS cria **uma** `ocorrencia` (`origem = 'pedido_web'`, `urgencia` do código mais grave dos itens,
-   `status = 'aberta'`, `tipo = NULL`) e uma `ocorrencia_item` por produto (`quantidade > 0`).
-3. A equipe cruza `ocorrencia_item` × `codigo_disfarce` para ler o conteúdo da denúncia.
-4. Funciona com ou sem login (`ocorrencia.usuaria_id` aceita `NULL`).
+1. A usuária (logada) navega pelo catálogo (`categoria` → `produto`), coloca itens na sacola e **confirma a compra**.
+2. A tela de confirmação é uma compra comum ("Compra confirmada, pedido nº ..."). **Neste ponto nada é gravado
+   como denúncia** (não existe tabela de pedido, e isso evita falso positivo de quem entrou por engano).
+3. Só abaixo da confirmação existe o botão **"Acertar com vendedor"**. Quem não precisa de ajuda simplesmente ignora.
+4. Ao tocar nele, o NestJS, numa transação:
+   - cria **uma** `ocorrencia` (`origem = 'pedido_web'`, `status = 'aberta'`, `tipo = NULL`,
+     `urgencia` = a maior entre os códigos dos itens) e uma `ocorrencia_item` por produto (`quantidade > 0`);
+   - cria a `conversa` (`origem = 'produto'`, `produto_id` = item de **maior urgência**, `ocorrencia_id`
+     da ocorrência acima) e copia `significado_inicial`/`urgencia_inicial` do `codigo_disfarce` (ver 3.2).
+5. A equipe cruza `ocorrencia_item` × `codigo_disfarce` para ler o conteúdo do pedido.
+6. Exige login (`conversa.usuaria_id` é NOT NULL), então `ocorrencia.usuaria_id` fica preenchido.
 
 ### 3.2 "Fale com o vendedor" (chat)
 
-1. Na página do produto, o botão abre a conversa. O NestJS:
+1. A conversa nasce do botão "Acertar com vendedor" (3.1) — não há mais botão na página do produto. O NestJS:
    - procura o `codigo_disfarce` ativo do produto (ou da categoria dele);
    - cria `conversa` (`origem = 'produto'`, `status = 'aguardando'`, `produto_id`, `codigo_disfarce_id`);
    - **copia** `significado_inicial` e `urgencia_inicial` do código vigente (regra do schema: a tabela de códigos muda com o tempo).

@@ -1,0 +1,26 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), payment=(), usb=(), geolocation=(self), microphone=(self)
+  Cross-Origin-Opener-Policy: same-origin
+
+/atendente
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+
+/entrar
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/cadastro
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/sacola
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

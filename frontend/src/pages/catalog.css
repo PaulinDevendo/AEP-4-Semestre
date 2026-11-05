@@ -13,8 +13,6 @@
 .swatch { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line); }
 .pdp-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
 .pdp-actions button { cursor: pointer; border: 0; }
-.btn-ghost { padding: .95rem 2rem; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; background: transparent; color: var(--wine); border: 1px solid var(--wine) !important; transition: background .3s, color .3s; }
-.btn-ghost:hover { background: var(--wine); color: var(--ivory); }
 .related { margin-top: 5rem; }
 .related h2 { font-size: 2rem; text-align: center; margin-bottom: 2rem; }
 
