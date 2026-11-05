@@ -87,8 +87,8 @@ function Essence({ id }: { id: string }) {
       <rect x="140" y="250" width="120" height="130" rx="22" fill="#D9899C" opacity=".75" />
       <rect x="150" y="200" width="10" height="165" rx="5" fill="#fff" opacity=".45" />
       <rect x="168" y="268" width="64" height="62" rx="3" fill="#FFF9F5" opacity=".92" />
-      <text x="200" y="296" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="14" letterSpacing="2" fill="#8C263D">ESSENCE</text>
-      <text x="200" y="314" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="7" letterSpacing="3" fill="#B76B7D">ROSÉ · 30 ML</text>
+      <text x="200" y="296" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="11" letterSpacing="1" fill="#8C263D">ESSENCE</text>
+      <text x="200" y="314" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="6" letterSpacing="1.5" fill="#B76B7D">ROSÉ · 30 ML</text>
     </g>
   )
 }
@@ -117,7 +117,7 @@ function Velvet({ id }: { id: string }) {
       <rect x="148" y="166" width="104" height="220" rx="18" fill="#fff" opacity=".12" />
       <rect x="158" y="176" width="9" height="200" rx="4.5" fill="#fff" opacity=".45" />
       <rect x="170" y="240" width="62" height="70" rx="3" fill="#FFF9F5" opacity=".92" />
-      <text x="201" y="270" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="15" letterSpacing="2" fill="#8C263D">VELVET</text>
+      <text x="201" y="270" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="12" letterSpacing="1" fill="#8C263D">VELVET</text>
       <text x="201" y="288" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="7" letterSpacing="3" fill="#B76B7D">SKIN</text>
     </g>
   )

@@ -1,10 +1,10 @@
 {
   "name": "save-our-skin",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": ["frontend", "backend", "packages/*"],
   "scripts": {
-    "dev:api": "npm run start:dev -w apps/api",
-    "dev:web": "npm run dev -w apps/web",
-    "build": "npm run build -w packages/shared && npm run build -w apps/api && npm run build -w apps/web"
+    "dev:frontend": "npm run dev -w frontend",
+    "dev:backend": "npm run start:dev -w backend",
+    "build": "npm run build -w packages/shared && npm run build -w backend && npm run build -w frontend"
   }
 }

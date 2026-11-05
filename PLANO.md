@@ -18,10 +18,10 @@ colunas, constraints ou policies. Inserir e atualizar **dados** (seeds, UPDATE e
 | Gatilho do app | Chacoalhar o celular. O app vem depois; o foco agora é só a web. |
 | Botão de emergência | Fica escondido atrás do banner **"Promoção do novo esmalte vermelho vivo"**. Ao ser acionado, chama a equipe e transmite **localização e áudio em tempo real**. O gatilho do app (futuro) abre essa mesma página. |
 | Discrição/segurança | Todos os itens entram (saída rápida, modo coação, sem rastro no navegador, títulos neutros, HTTPS, LGPD). |
-| Repositório | Monorepo com npm workspaces (`apps/api`, `apps/web`, `packages/shared`). Git local; remoto virá depois. |
-| Painel da equipe | Dentro do mesmo app React da loja (não há `apps/painel`). Qualquer atendente logado acessa o admin (métricas, dashboards, solicitações); restrição por perfil fica para depois. |
+| Repositório | Monorepo com npm workspaces (`backend`, `frontend`, `packages/shared`). Git local; remoto virá depois. |
+| Painel da equipe | Dentro do mesmo app React da loja (não há `painel` separado). Qualquer atendente logado acessa o admin (métricas, dashboards, solicitações); restrição por perfil fica para depois. |
 | Acesso ao painel | Sem link na loja. A rota real vem de `VITE_STAFF_PATH`. A loja mostra uma falsa página 404 com uma "porta secreta" que leva ao login do atendente (JWT). Chunk do painel em lazy-load, build sem sourcemaps, API do atendente responde 404 sem token. |
-| Identidade visual | Loja "Save Our Skin", símbolo ♀, tons de rosa. Assets em `apps/web/public`; documentos de identidade em `visual/*.md`. |
+| Identidade visual | Loja "Save Our Skin", símbolo ♀, tons de rosa. Assets em `frontend/public`; documentos por página em `visual/<página>/` (ex.: `visual/home/`). |
 | Deploy | Cloudflare Pages (web) + Render pago (API) + Supabase, no mesmo domínio (`/api` → Render). TURN necessário para o áudio WebRTC. |
 | Dependências | `.npmrc` com `legacy-peer-deps=true` (bug do npm 10 com peers em workspaces); TypeScript alinhado em ^6. |
 
@@ -66,15 +66,14 @@ colunas, constraints ou policies. Inserir e atualizar **dados** (seeds, UPDATE e
 
 ```
 save-our-skin/
-├── visual/             # .md de identidade visual
-├── apps/
-│   ├── api/            # NestJS + Prisma
-│   ├── web/            # React + Bootstrap — loja e painel da equipe (rota secreta)
-│   └── mobile/         # React Native — fase futura
+├── frontend/           # React + Bootstrap — loja e painel da equipe (rota secreta)
+├── backend/            # NestJS + Prisma
+├── mobile/             # React Native — fase futura
 ├── packages/
 │   └── shared/         # constantes dos CHECKs, tipos e eventos do socket
-└── database/
-    └── save_our_skin_web.sql   # referência; nunca executado pela aplicação
+├── database/
+│   └── save_our_skin_web.sql   # referência; nunca executado pela aplicação
+└── visual/             # .md por página (visual/home/, ...)
 ```
 
 O painel vive no mesmo app, mas em chunk separado e rota secreta (ver Decisões).

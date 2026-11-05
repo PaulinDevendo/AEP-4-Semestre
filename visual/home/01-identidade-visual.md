@@ -22,4 +22,4 @@ Flores delicadas · pétalas · tecidos de seda · texturas suaves · linhas fin
 Símbolo universal do feminino (♀) como detalhe discreto da marca. Nome fictício: **Save Our Skin**.
 
 ## Fotografia
-Qualidade de campanha de marca premium, imagens consistentes, fundo delicado. Assets em `apps/web/public/`.
+Qualidade de campanha de marca premium, imagens consistentes, fundo delicado. Assets em `frontend/public/`.

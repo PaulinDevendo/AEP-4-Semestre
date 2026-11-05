@@ -9,4 +9,4 @@
 - Marca fictícia com personalidade e direção de arte consistente, não template genérico.
 
 ## Estado dos assets
-Ainda **não há fotografias reais**. Os produtos e o hero usam ilustrações em SVG feitas no código (`apps/web/src/components/art`). Para trocar por fotos: coloque os arquivos em `apps/web/public/images/` e use-os no lugar dos componentes de arte.
+Ainda **não há fotografias reais**. Os produtos e o hero usam ilustrações em SVG feitas no código (`frontend/src/components/art`). Para trocar por fotos: coloque os arquivos em `frontend/public/images/` e use-os no lugar dos componentes de arte.
