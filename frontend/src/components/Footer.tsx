@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <div className="row g-5">
+        <div className="row g-5" data-reveal>
           <div className="col-lg-4">
             <a href="/" className="brand"><Venus size={20} /><span>Save Our Skin</span></a>
             <p className="about">Cosméticos e cuidados pensados para você. Cores, texturas e rituais para celebrar a sua beleza todos os dias.</p>

@@ -21,6 +21,8 @@ export const InstagramIcon = make(<><rect x="4" y="4" width="16" height="16" rx=
 export const PinterestIcon = make(<><circle cx="12" cy="12" r="8.5" /><path d="M11 16.5 12.5 9.5M10.2 12.8c.5 1.2 3.8 1.3 4.3-1.6.400-2.4-1.6-3.3-3.2-2.8" /></>)
 export const MailIcon = make(<><rect x="3.5" y="5.5" width="17" height="13" rx="2" /><path d="m4 7 8 6 8-6" /></>)
 
+export const UserIcon = make(<><circle cx="12" cy="8.5" r="3.6" /><path d="M5 20c.8-3.8 3.7-5.5 7-5.5s6.2 1.7 7 5.5" /></>)
+
 export const Venus = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden>
     <circle cx="12" cy="9" r="5" /><path d="M12 14v8M8.5 18.5h7" />

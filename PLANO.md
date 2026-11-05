@@ -20,7 +20,7 @@ colunas, constraints ou policies. Inserir e atualizar **dados** (seeds, UPDATE e
 | Discrição/segurança | Todos os itens entram (saída rápida, modo coação, sem rastro no navegador, títulos neutros, HTTPS, LGPD). |
 | Repositório | Monorepo com npm workspaces (`backend`, `frontend`, `packages/shared`). Git local; remoto virá depois. |
 | Painel da equipe | Dentro do mesmo app React da loja (não há `painel` separado). Qualquer atendente logado acessa o admin (métricas, dashboards, solicitações); restrição por perfil fica para depois. |
-| Acesso ao painel | Sem link na loja. A rota real vem de `VITE_STAFF_PATH`. A loja mostra uma falsa página 404 com uma "porta secreta" que leva ao login do atendente (JWT). Chunk do painel em lazy-load, build sem sourcemaps, API do atendente responde 404 sem token. |
+| Acesso ao painel | Sem link na loja. A rota real vem de `VITE_STAFF_PATH`. A loja mostra uma falsa página 404 cujo subtítulo "Beleza e **moda**" tem a palavra "moda" como botão escondido: abre o login do atendente (JWT). Por ora, conta de demonstração `atendente@gmail.com` / `SaveOurSkin123` (validada no front; troca/remoção antes de uso real). Chunk do painel em lazy-load, build sem sourcemaps, API do atendente responde 404 sem token. |
 | Identidade visual | Loja "Save Our Skin", símbolo ♀, tons de rosa. Assets em `frontend/public`; documentos por página em `visual/<página>/` (ex.: `visual/home/`). |
 | Qualidade | Lighthouse máximo (desempenho, acessibilidade, boas práticas), velocidade acima de tudo: fontes self-hosted, Bootstrap enxuto (só grid), sem filtros/blur caros, contraste AA. Rodar Lighthouse antes de fechar cada tela. |
 | Deploy | Cloudflare Pages (web) + Render pago (API) + Supabase, no mesmo domínio (`/api` → Render). TURN necessário para o áudio WebRTC. |
@@ -145,3 +145,5 @@ Lado da equipe (painel):
 ### Fase 8 — App React Native (futuro)
 - Detectar o chacoalhar → abrir a página de emergência da web
 - A configuração do gatilho fica salva só no aparelho (não há tabela para ela)
+
+> Atualização (2026-11-05): dicas de agressão nos produtos só para usuária logada. Conta demo da usuária: `mariadapenha@gmail.com` / `SOSHELP` (rota `/entrar`, validada no front por ora).

@@ -1,0 +1,42 @@
+.muted { color: var(--muted); margin: .8rem 0 0; }
+.catalog h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); }
+.more-cats { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: 3.5rem; }
+.more-cats a { padding: .55rem 1.2rem; border: 1px solid var(--line); border-radius: 999px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--wine); transition: background .3s, color .3s; }
+.more-cats a:hover { background: var(--wine); color: var(--ivory); }
+.crumbs { font-size: .8rem; color: var(--muted); margin-bottom: 2rem; }
+.crumbs a:hover { color: var(--wine); text-decoration: underline; }
+.pdp-media { aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 70px -40px rgba(140, 38, 61, .5); }
+.pdp-title { margin: .2rem 0 .6rem; }
+.pdp-price { font-size: 2rem; margin-bottom: 1.2rem; }
+.pdp-desc { color: var(--muted); max-width: 32rem; }
+.pdp-meta { display: flex; align-items: center; gap: .6rem; font-size: .85rem; color: var(--muted); margin: 1.4rem 0; }
+.swatch { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line); }
+.pdp-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+.pdp-actions button { cursor: pointer; border: 0; }
+.btn-ghost { padding: .95rem 2rem; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; background: transparent; color: var(--wine); border: 1px solid var(--wine) !important; transition: background .3s, color .3s; }
+.btn-ghost:hover { background: var(--wine); color: var(--ivory); }
+.related { margin-top: 5rem; }
+.related h2 { font-size: 2rem; text-align: center; margin-bottom: 2rem; }
+
+/* Chat "Fale com o vendedor" */
+.chat { position: fixed; right: 1rem; bottom: 1rem; z-index: 80; width: min(380px, calc(100vw - 2rem)); height: min(520px, 75vh); display: flex; flex-direction: column; background: var(--ivory); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(140, 38, 61, .45); overflow: hidden; }
+.chat header { display: flex; justify-content: space-between; align-items: center; padding: .8rem 1rem; background: var(--wine); color: var(--ivory); }
+.chat header small { display: block; opacity: .85; font-size: .75rem; }
+.chat header .icon-btn { color: var(--ivory); }
+.chat header .icon-btn:hover { background: rgba(255, 255, 255, .15); }
+.chat-body { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .5rem; background: var(--porcelain); }
+.bubble { margin: 0; padding: .55rem .9rem; border-radius: 14px; max-width: 82%; font-size: .9rem; }
+.bubble.them { background: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
+.bubble.me { background: var(--wine); color: var(--ivory); align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat form { display: flex; gap: .5rem; padding: .7rem; border-top: 1px solid var(--line); }
+.chat input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: .55rem 1rem; background: #fff; }
+.chat .btn-brand { padding: .55rem 1.1rem; border: 0; cursor: pointer; }
+
+/* Informação do item */
+.pdp-head { display: flex; align-items: center; gap: .8rem; }
+.info-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--wine); background: transparent; color: var(--wine); font: italic 600 1rem var(--serif); cursor: pointer; flex: none; }
+.info-btn:hover, .info-btn[aria-expanded="true"] { background: var(--wine); color: var(--ivory); }
+.info-box { margin: .4rem 0 1rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-left: 4px solid var(--wine); border-radius: 12px; background: var(--porcelain); max-width: 32rem; }
+.info-box p { margin: .5rem 0 0; }
+.info-box .small { font-size: .8rem; color: var(--muted); }
+.urg { margin-left: .6rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--rose-text); }

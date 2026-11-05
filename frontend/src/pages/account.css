@@ -1,0 +1,10 @@
+.account-card { max-width: 400px; margin: 0 auto; padding: 2.2rem; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
+.account-card h1 { font-size: 2.2rem; }
+.account-card label { display: block; font-size: .78rem; font-weight: 600; letter-spacing: .08em; margin: 1rem 0 .3rem; }
+.account-card input { width: 100%; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: 10px; }
+.account-card .err { color: #A1182F; font-size: .85rem; min-height: 1.4em; margin: .8rem 0 0; }
+.account-card .btn-brand, .account-card .btn-ghost { border: 0; cursor: pointer; margin-top: .4rem; }
+.account-card .btn-ghost { border: 1px solid var(--wine); }
+.account-card .row-btn { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.btn-ghost { padding: .95rem 2rem; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; background: transparent; color: var(--wine); }
+.muted { color: var(--muted); margin: .6rem 0 0; }

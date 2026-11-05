@@ -140,6 +140,43 @@ export function ProductArt({ kind, flowers = false }: { kind: ArtKind; flowers?:
   )
 }
 
+/** Cena do hero em camadas independentes (cada uma com profundidade própria no paralaxe). */
+export function HeroLayers() {
+  const id = 'hero'
+  const layer = (depth: number, scale: number) =>
+    ({ '--depth': depth, '--s': scale } as React.CSSProperties)
+  const box = { viewBox: '0 0 400 500', preserveAspectRatio: 'xMidYMid slice' as const, className: 'layer', 'aria-hidden': true }
+  return (
+    <>
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
+        <Defs id={id} />
+      </svg>
+      <svg {...box} style={layer(6, 1.1)}><SilkBackdrop id={id} /></svg>
+      <svg {...box} style={layer(16, 1.12)}>
+        <Rose x={52} y={300} s={.9} fill="#B76B7D" />
+        <Rose x={352} y={170} s={.7} fill="#8C263D" />
+      </svg>
+      <svg {...box} style={layer(32, 1.14)}>
+        <ellipse cx="205" cy="412" rx="95" ry="11" fill="#8C263D" opacity=".18" />
+        <g className="bob"><Rouge id={id} /></g>
+      </svg>
+      <svg {...box} style={layer(54, 1.22)}>
+        <Rose x={70} y={420} s={1.7} fill="#8C263D" />
+        <Rose x={330} y={445} s={1.9} />
+        <Rose x={365} y={350} s={.8} fill="#B76B7D" />
+      </svg>
+      <svg {...box} style={layer(78, 1.28)}>
+        <g fill="#B3263F" opacity=".85">
+          <path transform="translate(120 130) rotate(30) scale(.5)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />
+          <path transform="translate(300 90) rotate(-25) scale(.4)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />
+          <path transform="translate(330 220) rotate(50) scale(.45)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />
+          <path transform="translate(60 210) rotate(-40) scale(.35)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />
+        </g>
+      </svg>
+    </>
+  )
+}
+
 export function HeroArt() {
   const id = useId().replace(/:/g, '')
   return (
@@ -150,7 +187,7 @@ export function HeroArt() {
       <Rose x={330} y={445} s={1.9} />
       <Rose x={365} y={350} s={.8} fill="#B76B7D" />
       <ellipse cx="205" cy="412" rx="95" ry="11" fill="#8C263D" opacity=".18" />
-      <Rouge id={id} />
+      <g className="bob"><Rouge id={id} /></g>
       <g fill="#B3263F" opacity=".85">
         <path transform="translate(120 130) rotate(30) scale(.5)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />
         <path transform="translate(300 90) rotate(-25) scale(.4)" d="M20 2C32 12 38 28 20 50 2 28 8 12 20 2Z" />

@@ -1,0 +1,17 @@
+.nf { min-height: 100vh; display: grid; place-content: center; text-align: center; padding: 2rem 1rem; background: var(--ivory); }
+.nf h1 { font-family: var(--sans); font-size: clamp(4rem, 14vw, 7rem); font-weight: 300; color: var(--muted); letter-spacing: .05em; line-height: 1; }
+.nf p { margin: 1rem 0 0; color: var(--muted); }
+.nf .sub { font-size: .9rem; letter-spacing: .2em; text-transform: uppercase; }
+.nf a.back { display: inline-block; margin-top: 2rem; color: var(--rose-text); text-decoration: underline; }
+/* A "porta": idêntica ao texto ao redor; só o foco por teclado a revela. */
+.door { all: unset; cursor: text; color: inherit; letter-spacing: inherit; text-transform: inherit; }
+.door:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; border-radius: 4px; }
+.login { border: 1px solid var(--line); border-radius: 18px; padding: 2rem; width: min(380px, calc(100vw - 2rem)); background: var(--ivory); color: var(--ink); text-align: left; }
+.login::backdrop { background: rgba(58, 34, 41, .55); }
+.login h2 { font-size: 1.8rem; margin-bottom: 1.2rem; }
+.login label { display: block; font-size: .78rem; font-weight: 600; letter-spacing: .08em; margin: .9rem 0 .3rem; }
+.login input { width: 100%; padding: .65rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.login .err { color: #A1182F; font-size: .85rem; margin: .8rem 0 0; min-height: 1.2em; }
+.login .row-btn { display: flex; gap: .6rem; margin-top: 1rem; }
+.login button { cursor: pointer; border: 0; }
+.login .cancel { background: transparent; color: var(--muted); padding: .95rem 1rem; font-size: .78rem; }

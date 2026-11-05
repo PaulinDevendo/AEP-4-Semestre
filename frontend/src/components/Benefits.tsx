@@ -11,8 +11,8 @@ export default function Benefits() {
     <section className="benefits">
       <div className="container">
         <div className="row g-4">
-          {items.map((i) => (
-            <div key={i.title} className="col-md-4">
+          {items.map((i, n) => (
+            <div key={i.title} className="col-md-4" data-reveal="up" style={{ '--d': `${n * 130}ms` } as React.CSSProperties}>
               <div className="benefit">
                 <span className="benefit-icon">{i.icon}</span>
                 <h3>{i.title}</h3>
