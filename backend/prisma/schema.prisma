@@ -1,0 +1,238 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  importFileExtension = "js"
+  moduleFormat        = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model atendente {
+  id                        Int                  @id @default(autoincrement())
+  nome                      String               @db.VarChar(120)
+  nome_exibicao             String               @db.VarChar(60)
+  email                     String               @unique @db.VarChar(150)
+  senha_hash                String
+  ativo                     Boolean?             @default(true)
+  disponivel                Boolean?             @default(false)
+  max_conversas_simultaneas Int?                 @default(3) @db.SmallInt
+  ultimo_ping               DateTime?            @db.Timestamp(6)
+  criado_em                 DateTime?            @default(now()) @db.Timestamp(6)
+  conversa                  conversa[]
+  conversa_atendente        conversa_atendente[]
+  encaminhamento            encaminhamento[]
+}
+
+model categoria {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(80)
+  slug            String            @unique @db.VarChar(80)
+  descricao       String?
+  ordem           Int?              @default(0) @db.SmallInt
+  ativo           Boolean?          @default(true)
+  criado_em       DateTime?         @default(now()) @db.Timestamp(6)
+  codigo_disfarce codigo_disfarce[]
+  produto         produto[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model codigo_disfarce {
+  id           Int        @id @default(autoincrement())
+  produto_id   Int?
+  categoria_id Int?
+  significado  String     @db.VarChar(30)
+  urgencia     String     @db.VarChar(15)
+  observacao   String?
+  ativo        Boolean?   @default(true)
+  criado_em    DateTime?  @default(now()) @db.Timestamp(6)
+  categoria    categoria? @relation(fields: [categoria_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  produto      produto?   @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conversa     conversa[]
+  mensagem     mensagem[]
+
+  @@index([produto_id], map: "idx_codigo_produto")
+}
+
+model contato_confianca {
+  id         Int       @id @default(autoincrement())
+  usuaria_id Int
+  nome       String    @db.VarChar(120)
+  telefone   String    @db.VarChar(20)
+  parentesco String?   @db.VarChar(50)
+  prioridade Int?      @default(1) @db.SmallInt
+  criado_em  DateTime? @default(now()) @db.Timestamp(6)
+  usuaria    usuaria   @relation(fields: [usuaria_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model conversa {
+  id                  Int                  @id @default(autoincrement())
+  usuaria_id          Int
+  atendente_id        Int?
+  ocorrencia_id       Int?
+  produto_id          Int?
+  codigo_disfarce_id  Int?
+  origem              String?              @default("direta") @db.VarChar(20)
+  status              String?              @default("aguardando") @db.VarChar(20)
+  significado_inicial String?              @db.VarChar(30)
+  urgencia_inicial    String?              @db.VarChar(15)
+  aberta_em           DateTime?            @default(now()) @db.Timestamp(6)
+  assumida_em         DateTime?            @db.Timestamp(6)
+  ultima_mensagem_em  DateTime?            @db.Timestamp(6)
+  fechada_em          DateTime?            @db.Timestamp(6)
+  atendente           atendente?           @relation(fields: [atendente_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  codigo_disfarce     codigo_disfarce?     @relation(fields: [codigo_disfarce_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ocorrencia          ocorrencia?          @relation(fields: [ocorrencia_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  produto             produto?             @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  usuaria             usuaria              @relation(fields: [usuaria_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conversa_atendente  conversa_atendente[]
+  mensagem            mensagem[]
+
+  @@index([atendente_id], map: "idx_conversa_atendente")
+  @@index([status], map: "idx_conversa_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model conversa_atendente {
+  id           Int       @id @default(autoincrement())
+  conversa_id  Int
+  atendente_id Int
+  assumida_em  DateTime? @default(now()) @db.Timestamp(6)
+  liberada_em  DateTime? @db.Timestamp(6)
+  motivo_saida String?   @db.VarChar(60)
+  atendente    atendente @relation(fields: [atendente_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conversa     conversa  @relation(fields: [conversa_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model encaminhamento {
+  id                Int               @id @default(autoincrement())
+  ocorrencia_id     Int
+  instituicao_id    Int
+  atendente_id      Int?
+  encaminhado_em    DateTime?         @default(now()) @db.Timestamp(6)
+  observacao        String?
+  atendente         atendente?        @relation(fields: [atendente_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  instituicao_apoio instituicao_apoio @relation(fields: [instituicao_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ocorrencia        ocorrencia        @relation(fields: [ocorrencia_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([ocorrencia_id, instituicao_id])
+}
+
+model endereco {
+  id                Int                 @id @default(autoincrement())
+  logradouro        String?             @db.VarChar(150)
+  numero            String?             @db.VarChar(10)
+  complemento       String?             @db.VarChar(100)
+  bairro            String?             @db.VarChar(100)
+  cidade            String?             @db.VarChar(100)
+  estado            String?             @db.Char(2)
+  cep               String?             @db.VarChar(9)
+  pais              String?             @default("Brasil") @db.VarChar(50)
+  criado_em         DateTime?           @default(now()) @db.Timestamp(6)
+  instituicao_apoio instituicao_apoio[]
+  usuaria           usuaria[]
+}
+
+model instituicao_apoio {
+  id             Int              @id @default(autoincrement())
+  nome           String           @db.VarChar(150)
+  tipo           String?          @db.VarChar(60)
+  telefone       String?          @db.VarChar(20)
+  email          String?          @db.VarChar(150)
+  endereco_id    Int?
+  atende_24h     Boolean?         @default(false)
+  ativo          Boolean?         @default(true)
+  criado_em      DateTime?        @default(now()) @db.Timestamp(6)
+  encaminhamento encaminhamento[]
+  endereco       endereco?        @relation(fields: [endereco_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model mensagem {
+  id                 Int              @id @default(autoincrement())
+  conversa_id        Int
+  autor              String           @db.VarChar(15)
+  conteudo           String
+  produto_id         Int?
+  codigo_disfarce_id Int?
+  significado_codigo String?          @db.VarChar(30)
+  contem_codigo      Boolean?         @default(false)
+  enviada_em         DateTime?        @default(now()) @db.Timestamp(6)
+  lida               Boolean?         @default(false)
+  codigo_disfarce    codigo_disfarce? @relation(fields: [codigo_disfarce_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conversa           conversa         @relation(fields: [conversa_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  produto            produto?         @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([conversa_id], map: "idx_mensagem_conversa")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model ocorrencia {
+  id              Int               @id @default(autoincrement())
+  usuaria_id      Int?
+  origem          String            @db.VarChar(20)
+  tipo            String?           @db.VarChar(30)
+  urgencia        String?           @default("media") @db.VarChar(15)
+  status          String?           @default("aberta") @db.VarChar(20)
+  latitude        Decimal?          @db.Decimal(9, 6)
+  longitude       Decimal?          @db.Decimal(9, 6)
+  relato          String?
+  criada_em       DateTime?         @default(now()) @db.Timestamp(6)
+  encerrada_em    DateTime?         @db.Timestamp(6)
+  conversa        conversa[]
+  encaminhamento  encaminhamento[]
+  usuaria         usuaria?          @relation(fields: [usuaria_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ocorrencia_item ocorrencia_item[]
+
+  @@index([status], map: "idx_ocorrencia_status")
+  @@index([usuaria_id], map: "idx_ocorrencia_usuaria")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model ocorrencia_item {
+  id            Int        @id @default(autoincrement())
+  ocorrencia_id Int
+  produto_id    Int?
+  quantidade    Int?       @default(1) @db.SmallInt
+  ocorrencia    ocorrencia @relation(fields: [ocorrencia_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  produto       produto?   @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model produto {
+  id              Int               @id @default(autoincrement())
+  categoria_id    Int
+  nome            String            @db.VarChar(120)
+  descricao       String?
+  preco           Decimal           @db.Decimal(10, 2)
+  cor_hex         String?           @db.Char(7)
+  imagem_url      String?
+  estoque         Int?              @default(0)
+  ativo           Boolean?          @default(true)
+  criado_em       DateTime?         @default(now()) @db.Timestamp(6)
+  codigo_disfarce codigo_disfarce[]
+  conversa        conversa[]
+  mensagem        mensagem[]
+  ocorrencia_item ocorrencia_item[]
+  categoria       categoria         @relation(fields: [categoria_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([categoria_id], map: "idx_produto_categoria")
+}
+
+model usuaria {
+  id                Int                 @id @default(autoincrement())
+  apelido           String?             @db.VarChar(60)
+  email             String?             @unique @db.VarChar(150)
+  senha_hash        String
+  telefone          String?             @db.VarChar(20)
+  endereco_id       Int?
+  pin_coacao        String?
+  criado_em         DateTime?           @default(now()) @db.Timestamp(6)
+  ultimo_acesso     DateTime?           @db.Timestamp(6)
+  contato_confianca contato_confianca[]
+  conversa          conversa[]
+  ocorrencia        ocorrencia[]
+  endereco          endereco?           @relation(fields: [endereco_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
