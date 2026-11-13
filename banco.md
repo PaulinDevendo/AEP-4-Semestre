@@ -5,7 +5,8 @@
 > que já existem. **Nenhuma tabela, coluna, constraint, índice ou policy nova é solicitada.**
 > Nada aqui exige `prisma migrate` / `db push`; o backend usa apenas `prisma db pull` + `prisma generate`.
 
-Estado atual: o schema **ainda não foi aplicado no Supabase**. Ordem sugerida:
+Estado atual (2026-11-12): schema **e** seeds **já aplicados** no Supabase (projeto `dfoxopapfwajjmwjtfxw`).
+O seed pronto, com os hashes bcrypt, está em `database/seed.sql`. Ordem usada:
 
 1. Aplicar `database/save_our_skin_web.sql` (sem alterações).
 2. Rodar os seeds da seção 2 (nesta ordem: categoria → produto → atendente → instituições → códigos).

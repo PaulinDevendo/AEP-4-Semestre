@@ -4,7 +4,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Save%20Our%20Skin-Proteção%20e%20Acolhimento-ec8cae?style=for-the-badge" />
   <img src="https://img.shields.io/badge/ODS-05-e85d9e?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-Protótipo%20Frontend-dc9ab8?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Protótipo%20Full%20Stack-dc9ab8?style=for-the-badge" />
 </p>
 
 <p align="center">
@@ -24,6 +24,18 @@ Por trás dessa aparência, existe um sistema de comunicação discreto que perm
 A experiência foi pensada para que uma mulher possa acessar os recursos de apoio sem que a plataforma revele imediatamente sua verdadeira finalidade a outras pessoas.
 
 > 🌷 **Nosso propósito:** transformar uma experiência cotidiana em uma oportunidade de acolhimento, orientação e proteção.
+
+## 👥 Equipe
+
+Projeto desenvolvido para a AEP do curso de Engenharia de Software da Unicesumar.
+
+| Integrante | RA | Atuação no projeto |
+|---|---|---|
+| **Enzo Gabriel Dias Perlato** | 25001311-2 | **Banco de dados:** modelagem e criação do banco PostgreSQL, com as tabelas, os relacionamentos, as regras de integridade (`CHECK`) e a view de prévia do atendimento (`database/save_our_skin_web.sql`). |
+| **Paulo Ricardo Rinaldi da Silva** | 25013765-2 | **Implementação do sistema:** desenvolvimento da loja e do painel da equipe em React, da API em NestJS com Prisma, da integração com o banco no Supabase e da preparação do deploy. |
+| **Matheus Ransati Pereira** | 25057272-2 | **Diagramação e documentação:** elaboração dos diagramas e da documentação do projeto, que registra os requisitos, a arquitetura e a forma de uso da plataforma. |
+
+---
 
 ## ✨ Funcionalidades
 
@@ -56,11 +68,17 @@ Abra o terminal na pasta raiz do projeto e execute:
 npm install
 ```
 
-Em seguida, inicie o frontend:
+Configure a API: copie `backend/.env.example` para `backend/.env` e preencha `DATABASE_URL`
+(Supabase > **Connect** > *Session pooler*) e `JWT_SECRET`.
+
+Em dois terminais, inicie a API e o frontend:
 
 ```bash
-npm run dev:frontend
+npm run dev:backend    # API NestJS em http://localhost:3000/api
+npm run dev:frontend   # loja; o Vite repassa /api para a API
 ```
+
+> 🚀 **Para publicar (Supabase + Render + Cloudflare Pages), siga o [DEPLOY.md](DEPLOY.md).**
 
 Acesse o endereço indicado no terminal. Normalmente:
 
@@ -92,7 +110,7 @@ O protótipo disponibiliza duas contas fictícias para testar os diferentes nív
 
 Também é possível criar uma conta fictícia por meio da página `/cadastro`.
 
-**Importante:** todas as contas e informações são simuladas. Nenhum dado é persistido em banco de dados nesta versão.
+**Importante:** as contas acima são fictícias, e as senhas ficam no banco só como hash bcrypt. Cadastros, pedidos, conversas e ocorrências são gravados no banco (Supabase).
 
 ---
 
@@ -177,7 +195,7 @@ Os próprios nomes dos produtos também carregam referências sutis aos códigos
 | Acessórios | Necessaire Cofre | Violência patrimonial | 🟡 Média |
 | Acessórios | Espelho Eco | Violência psicológica | 🟢 Baixa |
 
-**Arquivo de referência:** `frontend/src/data/codes.ts`
+**Fonte:** tabela `codigo_disfarce` no banco (seed em `database/seed.sql`). Para mudar um significado, basta um `UPDATE`.
 
 </details>
 
@@ -295,19 +313,20 @@ O projeto ainda está em fase de prototipação. Algumas funcionalidades fazem p
 | Funcionalidade | Situação |
 |---|---|
 | Loja virtual e navegação | Protótipo disponível |
-| Autenticação de usuária | Simulada no frontend |
-| Códigos ocultos nos produtos | Disponível |
-| Sacola e confirmação de compra | Simuladas |
-| Chat entre usuária e atendente | Protótipo disponível |
-| Painel de atendimento | Protótipo disponível |
-| Registro e classificação de ocorrências | Simulados |
+| Autenticação de usuária e atendente | Disponível (bcrypt + JWT no NestJS) |
+| Cadastro de usuária | Disponível |
+| Códigos ocultos nos produtos | Disponível (tabela `codigo_disfarce`) |
+| Sacola e confirmação de compra | Disponível |
+| Chat entre usuária e atendente | Disponível (atualização a cada 3 s) |
+| Painel de atendimento | Disponível |
+| Registro e classificação de ocorrências | Disponível |
 | Banner do esmalte vermelho vivo | Pendente |
 | Página de emergência | Pendente |
 | Localização e áudio em tempo real | Pendente |
 | Modo coação com PIN | Pendente |
 | Saída rápida | Pendente |
-| Backend com NestJS | Pendente |
-| Banco de dados Supabase | Pendente |
+| Backend com NestJS | Disponível |
+| Banco de dados Supabase | Disponível |
 | Aplicativo React Native | Fase futura |
 
 ### 🔒 Segurança e privacidade
@@ -316,14 +335,12 @@ A segurança é um dos pilares conceituais do Save Our Skin.
 
 Nesta versão:
 
-- Os dados são fictícios.
-- Não existe persistência em banco de dados.
-- As credenciais são validadas diretamente no navegador.
-- A atualização da página encerra a sessão.
-- Não existe autenticação real no servidor.
+- Os dados de catálogo, contas e instituições são fictícios.
+- Senhas e PIN ficam no banco apenas como hash **bcrypt**; o login emite um **JWT** no NestJS.
+- O token fica só em memória: atualizar a página encerra a sessão e não sobra rastro no navegador.
+- As rotas da equipe respondem 404 sem um token de atendente.
+- O navegador nunca acessa o banco direto: RLS ligado sem policies bloqueia a API pública do Supabase, e só a API NestJS lê e grava.
 - O modo coação e a saída rápida ainda não foram implementados.
-
-Na arquitetura planejada, a autenticação será transferida para o servidor, utilizando **bcrypt e JWT**.
 
 A implementação de recursos como localização e áudio em tempo real dependerá de mecanismos adequados de consentimento, segurança e proteção dos dados.
 
@@ -341,8 +358,11 @@ Alguns arquivos importantes para compreender o funcionamento e a arquitetura do 
 | `PLANO.md` | Planejamento, fases e decisões |
 | `banco.md` | Documentação do banco de dados, seeds e processo de aplicação |
 | `database/save_our_skin_web.sql` | Schema SQL do banco de dados |
+| `database/seed.sql` | Dados iniciais (catálogo, códigos, contas demo, instituições) |
+| `DEPLOY.md` | Passo a passo do deploy (Supabase + Render + Cloudflare Pages) |
+| `backend/` | API NestJS + Prisma |
 | `visual/` | Identidade visual e referências das páginas |
-| `frontend/src/data/codes.ts` | Associação entre produtos e tipos de violência |
+| `frontend/src/data/codes.ts` | Textos de cada tipo de violência (a associação produto → tipo vem do banco) |
 
 ---
 
