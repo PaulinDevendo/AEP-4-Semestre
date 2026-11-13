@@ -4,6 +4,7 @@ services:
     name: save-our-skin-api
     runtime: node
     plan: starter
+    region: virginia
     buildCommand: npm ci --include=dev && npm run build -w backend
     startCommand: npm run start:prod -w backend
     healthCheckPath: /api/health

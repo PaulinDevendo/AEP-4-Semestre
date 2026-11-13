@@ -78,7 +78,7 @@ npm run dev:backend    # API NestJS em http://localhost:3000/api
 npm run dev:frontend   # loja; o Vite repassa /api para a API
 ```
 
-> 🚀 **Para publicar (Supabase + Render + Cloudflare Pages), siga o [DEPLOY.md](DEPLOY.md).**
+> 🚀 **Para publicar (Supabase + Render + Cloudflare Workers), siga o [DEPLOY.md](DEPLOY.md).**
 
 Acesse o endereço indicado no terminal. Normalmente:
 
@@ -359,7 +359,7 @@ Alguns arquivos importantes para compreender o funcionamento e a arquitetura do 
 | `banco.md` | Documentação do banco de dados, seeds e processo de aplicação |
 | `database/save_our_skin_web.sql` | Schema SQL do banco de dados |
 | `database/seed.sql` | Dados iniciais (catálogo, códigos, contas demo, instituições) |
-| `DEPLOY.md` | Passo a passo do deploy (Supabase + Render + Cloudflare Pages) |
+| `DEPLOY.md` | Passo a passo do deploy (Supabase + Render + Cloudflare Workers) |
 | `backend/` | API NestJS + Prisma |
 | `visual/` | Identidade visual e referências das páginas |
 | `frontend/src/data/codes.ts` | Textos de cada tipo de violência (a associação produto → tipo vem do banco) |

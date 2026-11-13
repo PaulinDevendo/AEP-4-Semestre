@@ -1,11 +1,11 @@
 # Deploy — Save Our Skin
 
-Arquitetura (PLANO.md): **Cloudflare Pages** (site) → `/api/*` → **Render** (API NestJS) → **Supabase** (Postgres).
-O navegador só fala com o domínio da loja. Uma Pages Function (`frontend/functions/api/[[path]].ts`)
+Arquitetura (PLANO.md): **Cloudflare Workers** (site + proxy) → `/api/*` → **Render** (API NestJS) → **Supabase** (Postgres).
+O navegador só fala com o domínio da loja. Um Worker (`frontend/worker/index.ts`, configurado em `frontend/wrangler.jsonc`)
 repassa `/api` para o Render, e só a API acessa o banco.
 
 ```
-navegador ──► Cloudflare Pages (frontend/dist)
+navegador ──► Cloudflare Worker (frontend/dist + proxy)
                  └─ /api/*  ──► Render: save-our-skin-api (NestJS + Prisma) ──► Supabase Postgres
 ```
 
@@ -44,7 +44,7 @@ Conexão verificada em 2026-11-12: com essa string, a API respondeu `/api/health
 2. Quando pedir as variáveis:
    - `DATABASE_URL`: a string do *Session pooler* (passo 1).
    - `JWT_SECRET`: o Render gera sozinho.
-   - `CORS_ORIGINS`: não precisa (o proxy do Pages deixa tudo na mesma origem).
+   - `CORS_ORIGINS`: não precisa (o proxy do Worker deixa tudo na mesma origem).
 3. Depois do deploy, abra `https://<serviço>.onrender.com/api/health`: precisa responder `{"ok":true}`.
    Se responder 503, o `DATABASE_URL` está errado (senha, ou usou a conexão direta).
 
@@ -52,31 +52,31 @@ Conexão verificada em 2026-11-12: com essa string, a API respondeu `/api/health
 > Brasil. Escolha **Virginia (US East)**, a mais próxima. Para isso, troque a região no painel ou
 > adicione `region: virginia` no `render.yaml` antes de criar o Blueprint.
 
-## 3. Site (Cloudflare Pages)
+## 3. Site (Cloudflare Workers)
 
-Workers & Pages > **Create > Pages > Connect to Git** > este repositório:
+Workers & Pages > **Create > Workers > Import a repository** > este repositório:
 
 | Campo | Valor |
 |---|---|
-| Framework preset | None |
 | Root directory | `frontend` |
 | Build command | `cd .. && npm ci --include=dev && npm run build -w frontend` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
 
-**Variáveis (Settings > Variables and Secrets), em Production e Preview:**
+O nome do Worker precisa ser igual ao `name` do `frontend/wrangler.jsonc` (`aep-4-semestre`).
+
+**Variáveis de runtime (Settings > Variables and Secrets), não as "Build variables":**
 
 | Nome | Valor |
 |---|---|
 | `API_ORIGIN` | `https://<serviço>.onrender.com` (sem barra no fim) |
-| `NODE_VERSION` | `22` |
 
-Como o *Root directory* é `frontend`, o Pages encontra a pasta `frontend/functions` (o proxy `/api`)
-e o `frontend/public/_headers` (CSP, no-store nas rotas sensíveis). Depois de mudar `API_ORIGIN`, faça
-um novo deploy, porque a variável só vale a partir do deploy seguinte.
+Em **Build variables** coloque `NODE_VERSION` = `22`. O `wrangler.jsonc` usa `keep_vars`, então o
+`API_ORIGIN` do painel não é apagado a cada deploy. Só `/api/*` passa pelo Worker; o resto é servido
+direto dos assets, com os headers de `frontend/public/_headers` (CSP, no-store nas rotas sensíveis).
 
 ## 4. Conferir (5 min)
 
-1. `https://<site>/api/health` → `{"ok":true}` (proxy do Pages → Render → Supabase).
+1. `https://<site>/api/health` → `{"ok":true}` (proxy do Worker → Render → Supabase).
 2. A loja carrega as categorias e os produtos (vêm do banco).
 3. `/entrar` com `mariadapenha@gmail.com` / `SOSHELP` → as dicas aparecem nos produtos.
 4. Produto → sacola → **Confirmar compra** → **Acertar com vendedor** → mande uma mensagem.
@@ -87,8 +87,8 @@ um novo deploy, porque a variável só vale a partir do deploy seguinte.
 
 | Sintoma | Causa provável |
 |---|---|
-| Loja mostra "Não foi possível carregar a loja" | `API_ORIGIN` ausente ou errado no Pages, ou a API está fora do ar |
-| `/api/health` responde 502 com "API_ORIGIN não configurada" | faltou a variável no Pages, ou não houve novo deploy depois de criá-la |
+| Loja mostra "Não foi possível carregar a loja" | `API_ORIGIN` ausente ou errada no Worker, ou a API está fora do ar |
+| `/api/health` responde 502 com "API_ORIGIN não configurada" | faltou a variável `API_ORIGIN` no Worker |
 | `/api/health` responde 503 | `DATABASE_URL` errado no Render |
 | Render falha no build com `nest: not found` | o build command perdeu o `--include=dev` |
 | Login demora ~1 min na primeira vez | plano gratuito do Render "dormindo"; o PLANO prevê plano pago |
