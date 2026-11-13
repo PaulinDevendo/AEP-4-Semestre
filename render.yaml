@@ -1,0 +1,20 @@
+# Blueprint do Render para a API (NestJS + Prisma). Render > New > Blueprint > este repositório.
+services:
+  - type: web
+    name: save-our-skin-api
+    runtime: node
+    plan: starter
+    buildCommand: npm ci --include=dev && npm run build -w backend
+    startCommand: npm run start:prod -w backend
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      # Supabase > Connect > "Session pooler" (com a senha do banco). Preencher no painel do Render.
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

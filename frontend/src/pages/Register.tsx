@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { registrarUsuaria } from '../data/userAuth'
 import './account.css'
 
-/** Tela de cadastro simulada: valida os campos, mas não guarda nenhum dado. */
 export default function Register() {
   const nav = useNavigate()
   const [err, setErr] = useState('')
+  const [busy, setBusy] = useState(false)
 
-  function submit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const f = new FormData(e.currentTarget)
     const senha = String(f.get('senha'))
@@ -16,8 +16,14 @@ export default function Register() {
     if (senha.length < 6) return setErr('A senha precisa ter pelo menos 6 caracteres.')
     if (senha !== String(f.get('senha2'))) return setErr('As senhas não coincidem.')
     if (pin && !/^\d{4,6}$/.test(pin)) return setErr('O PIN deve ter de 4 a 6 números.')
-    registrarUsuaria(String(f.get('apelido')))
-    nav('/', { replace: true })
+    setBusy(true); setErr('')
+    try {
+      await registrarUsuaria({ apelido: String(f.get('apelido')), email: String(f.get('email')), senha, pin: pin || undefined })
+      nav('/', { replace: true })
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Não foi possível cadastrar.')
+    }
+    setBusy(false)
   }
 
   return (
@@ -36,7 +42,7 @@ export default function Register() {
         <label htmlFor="r-p">PIN de acesso rápido (opcional)</label>
         <input id="r-p" name="pin" inputMode="numeric" maxLength={6} autoComplete="off" />
         <p className="err" role="alert">{err}</p>
-        <button className="btn-brand" type="submit">Cadastrar</button>
+        <button className="btn-brand" type="submit" disabled={busy}>{busy ? 'Cadastrando…' : 'Cadastrar'}</button>
         <p className="alt">Já tem conta? <Link to="/entrar" className="lnk">Entrar</Link></p>
       </form>
     </div></section>

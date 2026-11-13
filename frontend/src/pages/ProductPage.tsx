@@ -3,20 +3,24 @@ import { Link, useParams } from 'react-router-dom'
 import { ProductArt } from '../components/Art'
 import ProductCard from '../components/ProductCard'
 import { addToCart } from '../data/cart'
-import { getCode, SIGNIFICADO_INFO } from '../data/codes'
+import { SIGNIFICADO_INFO, useCodes } from '../data/codes'
 import { useHints } from '../data/userAuth'
-import { brl, byCategory, getCategory, getProduct } from '../data/products'
+import { brl, useCatalog } from '../data/products'
+import { Loading } from '../components/Loading'
 import { Navigate } from 'react-router-dom'
 import './catalog.css'
 
 export default function ProductPage() {
   const { id = '' } = useParams()
+  const { status, getProduct, getCategory, byCategory } = useCatalog()
+  const codes = useCodes()
   const product = getProduct(id)
   const [added, setAdded] = useState(false)
   const [info, setInfo] = useState(false)
   const hints = useHints()
+  if (status !== 'ready') return <Loading failed={status === 'error'} />
   if (!product) return <Navigate to="/404" replace />
-  const code = hints ? getCode(product.id) : undefined
+  const code = hints ? codes[product.id] : undefined
   const sig = code && SIGNIFICADO_INFO[code.significado]
   const cat = getCategory(product.category)!
   const related = byCategory(product.category).filter((p) => p.id !== product.id).slice(0, 4)

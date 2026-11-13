@@ -1,12 +1,15 @@
 import { Link, useParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
-import { byCategory, categories, getCategory } from '../data/products'
+import { useCatalog } from '../data/products'
 import { Navigate } from 'react-router-dom'
+import { Loading } from '../components/Loading'
 import './catalog.css'
 
 export default function Category() {
   const { slug = '' } = useParams()
+  const { status, categories, getCategory, byCategory } = useCatalog()
   const cat = getCategory(slug)
+  if (status !== 'ready') return <Loading failed={status === 'error'} />
   if (!cat) return <Navigate to="/404" replace />
   const list = byCategory(slug)
   return (

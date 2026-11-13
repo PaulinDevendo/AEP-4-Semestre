@@ -22,10 +22,13 @@ export default function NotFound({ door = false }: { door?: boolean }) {
     e.preventDefault()
     const f = new FormData(e.currentTarget)
     setBusy(true); setErr('')
-    const ok = await loginAtendente(String(f.get('email')), String(f.get('senha')))
+    try {
+      await loginAtendente(String(f.get('email')), String(f.get('senha')))
+      dlg.current?.close(); nav(STAFF_PATH, { replace: true })
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Não foi possível entrar.')
+    }
     setBusy(false)
-    if (ok) { dlg.current?.close(); nav(STAFF_PATH, { replace: true }) }
-    else setErr('E-mail ou senha incorretos (após 5 erros, aguarde 30 s).')
   }
 
   return (

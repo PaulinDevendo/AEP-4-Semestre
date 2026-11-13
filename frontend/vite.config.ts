@@ -5,4 +5,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   build: { sourcemap: false },
+  server: { proxy: { '/api': 'http://localhost:3000' } },
+  preview: { proxy: { '/api': 'http://localhost:3000' } },
 })

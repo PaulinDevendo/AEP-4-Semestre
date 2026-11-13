@@ -7,8 +7,8 @@ Plataforma web com aparência de loja de maquiagem que funciona como canal discr
 para mulheres em situação de violência (AEP — ODS 5, Igualdade de Gênero).
 Para quem olha de fora, é só uma loja. Este guia mostra tudo o que está escondido, para que possa ser avaliado.
 
-Esta versão é um protótipo de front-end: os dados são fictícios, nada é gravado em banco
-e as contas abaixo são genéricas. Atualizar a página encerra a sessão (de propósito: não deixa rastro no navegador).
+Os dados do catálogo e as contas abaixo são fictícios. Cadastros, pedidos, conversas e ocorrências
+são gravados no banco (Supabase) pela API NestJS. Atualizar a página encerra a sessão (de propósito: não deixa rastro no navegador).
 
 ---
 
@@ -27,7 +27,7 @@ Abra o endereço mostrado no terminal (normalmente http://localhost:5173).
   - Usuária (cliente da loja) | mariadapenha@gmail.com | SOSHELP | ícone de pessoa no topo, ou /entrar
   - Atendente (equipe) | atendente@gmail.com | SaveOurSkin123 | ver o passo "porta secreta" abaixo
 
-Também é possível criar uma conta de mentira em /cadastro (não grava nada).
+Também é possível criar uma conta em /cadastro (grava na tabela usuaria; senha só como hash).
 
 ---
 
@@ -47,7 +47,7 @@ Cada produto representa um tipo de agressão. Com a usuária logada:
 - O nome do produto traz uma dica sutil (ex.: "Nude Laço" = cerceamento; "Glow Vigia" = vigilância).
 - Sem login, nada disso aparece.
 
-Tabela completa (também em frontend/src/data/codes.ts):
+Tabela completa (no banco: tabela codigo_disfarce, seed em database/seed.sql):
 
   - Categoria | Produto | Tipo que indica | Urgência
   - Batons | Rouge Intense | Ameaça | alta
@@ -95,10 +95,7 @@ Passo 5 — A porta secreta e o painel da equipe
 
 - Banner do esmalte vermelho vivo e a página de emergência (localização e áudio em tempo real).
 - Modo coação (loja "limpa" com PIN) e saída rápida.
-- Backend (NestJS + Prisma + Supabase): o banco ainda não foi aplicado. O arquivo banco.md descreve tudo
-  que o banco precisa (seeds e processo) e database/save_our_skin_web.sql é o schema.
 - App mobile (React Native): fase futura.
-- Os logins acima são validados no próprio navegador; na versão final serão feitos no servidor (bcrypt + JWT).
 - As imagens dos produtos são ilustrações provisórias.
 
 5. Arquivos úteis
@@ -109,4 +106,5 @@ Passo 5 — A porta secreta e o painel da equipe
   - banco.md | o que o banco de dados precisa (para o dev de banco)
   - database/save_our_skin_web.sql | schema do banco
   - visual/ | identidade visual por página
-  - frontend/src/data/codes.ts | quais produtos indicam qual tipo de agressão
+  - database/seed.sql | dados iniciais, inclusive quais produtos indicam qual tipo de agressão
+  - DEPLOY.md | como publicar (Supabase + Render + Cloudflare Pages)
