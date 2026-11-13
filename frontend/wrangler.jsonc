@@ -5,6 +5,8 @@
   "compatibility_date": "2026-11-01",
   // Mantém as variáveis criadas no painel (API_ORIGIN) em cada deploy.
   "keep_vars": true,
+  // URL pública da API no Render (sem barra no fim). Não é segredo.
+  "vars": { "API_ORIGIN": "https://saceourskin.onrender.com" },
   "assets": {
     "directory": "./dist",
     // Rotas do React Router (/entrar, /sacola, /atendente...) voltam para o index.html.
