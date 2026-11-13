@@ -13,3 +13,4 @@
 .done { max-width: 520px; margin: 0 auto; text-align: center; }
 .done ul { list-style: none; padding: 0; color: var(--muted); }
 .done-actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.5rem; }
+.done .err { color: #A1182F; font-size: .85rem; margin: .8rem 0 0; }

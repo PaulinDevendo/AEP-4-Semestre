@@ -16,10 +16,13 @@ export default function Login() {
     e.preventDefault()
     const f = new FormData(e.currentTarget)
     setBusy(true); setErr('')
-    const ok = await loginUsuaria(String(f.get('email')), String(f.get('senha')))
+    try {
+      await loginUsuaria(String(f.get('email')), String(f.get('senha')))
+      nav(dest, { replace: true })
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Não foi possível entrar.')
+    }
     setBusy(false)
-    if (ok) nav(dest, { replace: true })
-    else setErr('E-mail ou senha incorretos (após 5 erros, aguarde 30 s).')
   }
 
   if (user) {

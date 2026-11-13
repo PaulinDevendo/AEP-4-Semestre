@@ -1,7 +1,8 @@
 import ProductCard from './ProductCard'
-import { products } from '../data/products'
+import { useCatalog } from '../data/products'
 
 export default function Showcase() {
+  const { featured: products } = useCatalog()
   return (
     <section id="favoritos" className="section">
       <div className="container">

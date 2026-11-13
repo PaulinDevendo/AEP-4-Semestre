@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import { ProductArt } from './Art'
 import { EyeIcon, HeartIcon } from './Icons'
 import { brl, type Product } from '../data/products'
-import { hoverText } from '../data/codes'
+import { hoverText, useCodes } from '../data/codes'
 import { useHints } from '../data/userAuth'
 
 export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false)
   const hints = useHints()
-  const hint = hints ? hoverText(product.id) : null
+  const codes = useCodes()
+  const hint = hints ? hoverText(codes[product.id]) : null
   return (
     <article className="product-card">
       {hint && <span id={`h-${product.id}`} role="tooltip" className="hint">{hint}</span>}

@@ -1,9 +1,7 @@
+import { createStore } from '../lib/createStore'
+import { api } from '../lib/api'
 import type { Significado, Urgencia } from './staffStore'
 
-/**
- * Código de cada produto (espelha `codigo_disfarce`). Dados de protótipo, editáveis:
- * na API vêm da tabela. Desligue com VITE_SHOW_HINTS=false (esconde dicas na loja pública).
- */
 export const SHOW_HINTS = import.meta.env.VITE_SHOW_HINTS !== 'false'
 
 export interface SignInfo { label: string; hover: string; detail: string; staff: string }
@@ -20,32 +18,15 @@ export const SIGNIFICADO_INFO: Record<Significado, SignInfo> = {
 
 export interface ProductCode { significado: Significado; urgencia: Urgencia; emergencia?: boolean }
 
-export const PRODUCT_CODES: Record<string, ProductCode> = {
-  'rouge-intense': { significado: 'ameaca', urgencia: 'alta' },
-  'rosa-antigo': { significado: 'violencia_fisica', urgencia: 'alta' },
-  'nude-seda': { significado: 'cerceamento', urgencia: 'media' },
-  'bordo-noturno': { significado: 'violencia_sexual', urgencia: 'alta' },
-  'esmalte-vermelho-vivo': { significado: 'outro', urgencia: 'emergencia', emergencia: true },
-  'esmalte-rosa-chiclete': { significado: 'violencia_psicologica', urgencia: 'media' },
-  'esmalte-nude-po': { significado: 'violencia_patrimonial', urgencia: 'media' },
-  'base-fortalecedora': { significado: 'outro', urgencia: 'baixa' },
-  'velvet-skin': { significado: 'violencia_sexual', urgencia: 'alta' },
-  'blush-romantic': { significado: 'violencia_psicologica', urgencia: 'media' },
-  'po-translucido': { significado: 'outro', urgencia: 'baixa' },
-  'glow-iluminador': { significado: 'cerceamento', urgencia: 'media' },
-  'essence-rose': { significado: 'violencia_psicologica', urgencia: 'media' },
-  'creme-hidratante': { significado: 'violencia_fisica', urgencia: 'alta' },
-  'agua-micelar': { significado: 'outro', urgencia: 'baixa' },
-  'protetor-solar': { significado: 'ameaca', urgencia: 'media' },
-  'kit-pinceis': { significado: 'cerceamento', urgencia: 'media' },
-  'esponja-rosa': { significado: 'outro', urgencia: 'baixa' },
-  'necessaire-seda': { significado: 'violencia_patrimonial', urgencia: 'media' },
-  'espelho-bolso': { significado: 'violencia_psicologica', urgencia: 'baixa' },
+const store = createStore<Record<string, ProductCode>>({})
+export const useCodes = store.use
+export const clearCodes = () => store.set({})
+export async function loadCodes(token: string) {
+  const d = await api<Record<string, { significado: Significado; urgencia: Urgencia }>>('/codigos', { token })
+  const out: Record<string, ProductCode> = {}
+  for (const [slug, c] of Object.entries(d)) out[slug] = { ...c, emergencia: c.urgencia === 'emergencia' }
+  store.set(out)
 }
 
-export const getCode = (productId: string) => PRODUCT_CODES[productId]
-export const hoverText = (productId: string) => {
-  const c = PRODUCT_CODES[productId]
-  if (!c) return null
-  return c.emergencia ? 'Pedido de ajuda imediato' : SIGNIFICADO_INFO[c.significado].hover
-}
+export const hoverText = (c: ProductCode | undefined) =>
+  !c ? null : c.emergencia ? 'Pedido de ajuda imediato' : SIGNIFICADO_INFO[c.significado].hover

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { categories } from '../data/products'
+import { useCatalog } from '../data/products'
 import { useCartCount } from '../data/cart'
 import { BagIcon, UserIcon, HeartIcon, MenuIcon, SearchIcon, Venus } from './Icons'
 
@@ -8,6 +8,7 @@ export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const count = useCartCount()
+  const { categories } = useCatalog()
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12)
     on()

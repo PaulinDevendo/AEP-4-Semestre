@@ -39,3 +39,4 @@ table { width: 100%; border-collapse: collapse; }
 th, td { padding: .6rem .8rem; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--rose-text); }
 td select { max-width: 200px; padding: .3rem; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
+.staff-err { color: #A1182F; margin: 0; font-size: .85rem; }
